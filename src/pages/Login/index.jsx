@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 })
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Register extends Component {
+export default class RouterMap extends Component {
     constructor(props, context) {
         super(props, context);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate;
@@ -43,7 +43,7 @@ export default class Register extends Component {
     render() {
         return (
             <div>
-                
+
             </div>
         );
     }

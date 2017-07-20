@@ -6,7 +6,7 @@ import { getTopics,SaveTopic } from './actions';
 import RouterMap from './router/index.jsx';
 import store from './store';
 
-
+import './static/css/reset'
 
 render(
     <Provider store={store}>

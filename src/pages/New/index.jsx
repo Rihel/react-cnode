@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import {Link} from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import './style.scss'
 /**
  * 加载页面组件
@@ -31,7 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 })
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Home extends Component {
+export default class New extends Component {
     constructor(props, context) {
         super(props, context);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate;
@@ -42,7 +43,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-
+                新手入门
             </div>
         );
     }

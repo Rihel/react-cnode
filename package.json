@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --color --inline --hot"
+    "dev": "set NODE_ENV=dev&&webpack-dev-server --hot --progress --inline --color",
+    "build": "set NODE_ENV=pros&&webpack --progress"
   },
   "author": "",
   "license": "ISC",

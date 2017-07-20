@@ -1,37 +1,47 @@
-const webpack = require('webpack'),
-    path = require('path'),
-    html = require('html-webpack-plugin'),
+const path = require('path');
+const webpack = require('webpack');
+const Browser = require('open-browser-webpack-plugin')
+const ROOT_PATH = path.resolve(__dirname),
+    APP_PATH = path.resolve(ROOT_PATH, './src'),
+    BUILD_PATH = path.resolve(ROOT_PATH, './build'),
+    htmlWebpack = require('html-webpack-plugin'),
     Ex = require('extract-text-webpack-plugin');
-const APP_PATH = path.resolve(__dirname, './src'),
-    BUILD_PATH = path.resolve(__dirname, './build');
 
+const NODE_DEV = process.env.NODE_DEV;
+let isDEV = NODE_DEV === 'dev';
 module.exports = {
-    devtool: 'source-map',
     entry: {
-        app: path.resolve(APP_PATH, './app.jsx')
+        app: path.resolve(APP_PATH, './app.jsx'),
+        common: ['react', 'react-dom']
     },
     output: {
-        path: path.resolve(BUILD_PATH, './js'),
+        path: path.resolve(BUILD_PATH),
         filename: '[name].js'
     },
     resolve: {
-        extensions: ['.js', '.jsx','.scss','.css']
+        extensions: ['.js', '.scss', '.jsx','.css'],
+        alias: {
+            '@com': path.resolve(APP_PATH, './components'),
+            'src':path.resolve(APP_PATH)
+        }
     },
     module: {
         rules: [{
             test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            loader: ['babel-loader']
+            loader: ['babel-loader'],
+            exclude: /node_modules/
         }, {
-            test: /\.(sass|scss|css)$/,
+            test: /\.(css|sass|scss)$/,
             include: APP_PATH,
             use: Ex.extract({
-                fallback: 'style-loader',
+                fallback: "style-loader",
                 use: [{
                     loader: 'css-loader',
                     options: {
-                        importLoasers: 1,
-                        minimize: false
+                        importLoaders: 1,
+                        // modules: true,
+                        // localIdentName: '[name]-[local]-[hash:base64:5]',
+                        minimize: !isDEV
                     }
                 }, {
                     loader: 'postcss-loader',
@@ -42,11 +52,12 @@ module.exports = {
                     loader: 'sass-loader'
                 }]
             })
-
         }, {
-            test: /\.(gif|jpg|svg|png)(\?.*)?$/,
+            // 处理图片文件
+            test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
             loader: 'url-loader?name=img/[name].[ext]&limit=8192'
         }, {
+            // 处理字体文件
             test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
             loader: 'url-loader',
             options: {
@@ -55,13 +66,24 @@ module.exports = {
             }
         }]
     },
+    
     plugins: [
-        new webpack.ProvidePlugin({
-
+        new webpack
+        .optimize
+        .ModuleConcatenationPlugin(),
+        new Browser(),
+        new webpack
+        .optimize
+        .CommonsChunkPlugin({
+            name: 'common',
+            filename: '[name].js',
+            minChunks: 2
         }),
-        new html({
+        new htmlWebpack({
             template: './index.html'
         }),
-        new Ex('style.css')
+        new Ex('style.css'),
+
+       
     ]
 }

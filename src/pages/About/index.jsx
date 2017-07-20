@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './style.scss'
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 })
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Register extends Component {
+export default class About extends Component {
     constructor(props, context) {
         super(props, context);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate;
@@ -43,7 +43,7 @@ export default class Register extends Component {
     render() {
         return (
             <div>
-                
+                关于
             </div>
         );
     }
